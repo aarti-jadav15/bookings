@@ -121,7 +121,8 @@ class AuthController extends Controller
         $bookingDate = $request->booking_date;
         $bookingType = $request->booking_type;
         $bookingSlot = $request->booking_slot;
-    
+        $userId = Auth::id();
+
         // Check if a "custom" booking exists (no other bookings allowed on that date)
         $customBookingExists = DB::table('bookings')
             ->where('booking_date', $bookingDate)
@@ -170,6 +171,7 @@ class AuthController extends Controller
         }
     
         DB::table('bookings')->insert([
+            'user_id' => $userId,
             'customer_name' => $request->customer_name,
             'customer_email' => $request->customer_email,
             'booking_date' => $bookingDate,
